@@ -19,7 +19,8 @@
     </head>
     <body class="bg-gray-700 container m-auto">
         @include('layouts.nav')
-        @section('body')
-        @show
+        <div class="p-5 bg-yellow-500 rounded-lg space-y-4 shadow">
+            @yield('body')
+        </div>
     </body>
 </html>

@@ -1,43 +1,37 @@
-<?php
+@extends('layouts.header')
 
-use Illuminate\Http\JsonResponse;
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@section('body')
     <h1>users</h1>
-    <pre>
-        @foreach ($users as $user)
-            {{ $user->name }}
-            {{ $user->password }}
-            {{ $user->email }}
-            {{ $user->created_at }}
-        @endforeach
-    </pre>
 
-    <section>
-        <form method="POST" action="/users">
+
+    <section >
+        <form method="POST" action="/users" class="space-y-5 md:w-1/2 px-5 flex flex-col">
 
         {{ csrf_field() }}
 
             <p>
-                <input type="text" name="name" placeholder="Name" required>
+                <input class="w-full p-3 px-5  rounded-full" type="text" name="name" placeholder="Name" required>
             </p>
             <p>
-                <input type="email" name="email" placeholder="Email" required>
+                <input class="w-full p-3 px-5  rounded-full" type="email" name="email" placeholder="Email" required>
             </p>
             <p>
-                <input type="password" name="password" placeholder="Password" required>
+                <input class="w-full p-3 px-5  rounded-full" type="password" name="password" placeholder="Password" required>
             </p>
             <p>
-                <button type="submit">Add user</button>
+                <button class=" w-full py-2 px-10 rounded-full bg-blue-400" type="submit">Add user</button>
             </p>
         </form>
+
+        <div >
+            <pre>
+                @foreach ($users as $user)
+                    {{ $user->name }}
+                    {{ $user->password }}
+                    {{ $user->email }}
+                    {{ $user->created_at }}
+                @endforeach
+            </pre>
+        </div>
     </section>
-</body>
-</html>
+@endsection
