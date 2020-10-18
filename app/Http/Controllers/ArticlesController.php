@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Tag;
 
 class ArticlesController extends Controller
 {
 
     public function index()
     {
-        $articles = Article::all();
+        if(request('tag')){
+            $articles = Tag::where('name', request('tag'))->firstOrFail()->articles;
+            // return $articles;
+        } else{
+            $articles = Article::latest()->get();
+        }
+
         return view('articles.index', compact('articles'));
     }
 
@@ -21,8 +28,8 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-
-        return view('articles.create');
+        $tags= Tag::all();
+        return view('articles.create',compact('tags'));
     }
 
     /**
@@ -33,7 +40,16 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        Article::create($this->validateArticle());
+        // dd(request()->all());
+        // Article::create($this->validateArticle());
+        $this->validateArticle();
+        $article = new Article(request([
+            'title', 'body','author'
+        ]));
+        $article->user_id = 1; // should create AUTH, <- auth()->id();
+        $article->save();
+
+        $article->tags()->attach(request('tags'));
         return redirect(route('articles.index'));
     }
 
@@ -98,6 +114,7 @@ class ArticlesController extends Controller
                 'title' => ['required', 'min:4', 'max:255'],
                 'body' => ['required', 'min:4', 'max:255'],
                 'author' => ['required', 'min:4', 'max:255'],
+                // 'tags' => 'exists:tags,id'
             ]
             );
     }

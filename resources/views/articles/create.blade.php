@@ -15,9 +15,9 @@
                 {{  $errors->has('title') ? 'border border-red-500 shadow-xl' : null }}" placeholder="Article title"
                 value="{{ @old('title') }}"
             >
-            @if ($errors->has('title'))
-                <label for="title" class="text-pink-700 mt-2">{{ $errors->first('title') }}</label>
-            @endif
+            @error('title')
+                <label for="title" class="text-pink-700 mt-2">{{ $message }}</label>
+            @enderror
         </div>
         <div class="flex flex-col w-full">
             <label for="body" class="mb-2 capitalize">body</label>
@@ -25,11 +25,11 @@
                 class="p-3 rounded-full pl-5 text-xl font-hairline {{  $errors->has('body') ? 'border border-red-500 shadow-xl' : null }}" placeholder="Project body"
                 value="{{ @old('body') }}"
             >
-            @if ($errors->has('body'))
+            @error('body')
                 <label for="body" class="text-pink-700 mt-2">
-                    {{ $errors->first('body') }}
+                    {{ $message }}
                 </label>
-            @endif
+            @enderror
         </div>
         <div class="flex flex-col w-full">
             <label for="author" class="mb-2 capitalize">author</label>
@@ -37,9 +37,20 @@
                 class="p-3 rounded-full pl-5 text-xl font-hairline {{  $errors->has('author') ? 'border border-red-500 shadow-xl' : null }}" placeholder="Project author"
                 value="{{ @old('author') }}"
             >
-            @if ($errors->has('author'))
-                <label for="author" class="text-pink-700 mt-2">{{ $errors->first('author') }}</label>
-            @endif
+            @error('author')
+                <label for="author" class="text-pink-700 mt-2">{{ $message }}</label>
+            @enderror
+        </div>
+        <div class="flex flex-col w-full">
+            <label for="author" class="mb-2 capitalize">tags</label>
+            <select name="tags[]" class="p-3 rounded-full" multiple>
+                @foreach ($tags as $tag)
+                    <option value="{{ $tag->id }}" >{{ $tag->name }}</option>
+                @endforeach
+            </select>
+            @error('tags')
+                <label for="author" class="text-pink-700 mt-2">{{ $message }}</label>
+            @enderror
         </div>
         <div class="pt-10">
             <button type="submit" class="bg-green-900 px-3 py-1 rounded-lg text-white hover:shadow-xl mr-5">
