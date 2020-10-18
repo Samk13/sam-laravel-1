@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -47,10 +48,10 @@ class ProjectsController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show(Article $article)
     {
 
-        return view('projects.show', compact('project'));
+        return view('article.show', compact('project'));
     }
 
     /**
