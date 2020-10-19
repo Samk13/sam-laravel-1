@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProjectsController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,3 +41,16 @@ Route::post('/articles',[ArticlesController::class, 'store'])->name('articles.st
 Route::get('/articles/show/{article}',[ArticlesController::class,'show'])->name('articles.show');
 Route::get('/articles/{article}/edit',[ArticlesController::class,'edit'])->name('articles.edit');
 Route::put('/articles/{article}',[ArticlesController::class,'update'])->name('articles.update');
+
+Route::get('/container', function (\App\Providers\Example $example)
+{
+    // $container = new \App\Providers\Container();
+    // $container->bind('example', function (){
+    //     return new \App\Providers\Example();
+    // });
+    // $example = app()->make(App\Providers\Example::class);
+
+    $example->go();
+}
+);
+
