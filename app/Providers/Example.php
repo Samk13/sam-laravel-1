@@ -13,7 +13,7 @@ class Example
 
     public function go()
     {
-        dump('It works!');
+        dump('It works! testing service container');
     }
 }
 
