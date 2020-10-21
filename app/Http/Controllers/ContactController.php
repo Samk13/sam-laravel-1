@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Contact;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
@@ -15,14 +16,10 @@ class ContactController extends Controller
     {
         request()->validate(['email'=>'required|email']);
         $email = request('email');
-        // dd($email);
-        Mail::raw('It works!', function ($message)
-        {
-            $message->to(request('email'))
-            ->sender('hello@example.com', 'Example')
-            ->subject('a subject for this email is to see a subject !');
-        });
+        $topic = " this is a topic from the controller !! sd,ajd lö<kj😎";
+        Mail::to($email)->send(new Contact($topic));
 
-        return redirect('/contact')->with('message', 'Email sent successfully!');
+        return redirect('/contact')
+            ->with('message', 'Email sent successfully!');
     }
 }

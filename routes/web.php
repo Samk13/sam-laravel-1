@@ -5,7 +5,11 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
+use App\Mail\Contact;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,3 +56,16 @@ Route::put('/articles/{article}',[ArticlesController::class,'update'])->name('ar
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/email', function(){
+    return new Contact();
+});
+
+
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth');
+Route::post('payment', [PaymentController::class, 'store'])->middleware('auth');
