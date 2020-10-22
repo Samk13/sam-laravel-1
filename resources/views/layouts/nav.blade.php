@@ -18,10 +18,44 @@
         </div>
       </div>
       <div class="hidden sm:ml-6 sm:block">
-        <div class="flex items-center">
-          <a href="/login">Login</a>
-          <a href="/logout">Logout</a>
+        <div class="flex space-x-3 items-center">
+          {{-- <a href="/login">Login</a>
+          <a href="/logout">Logout</a> --}}
+          <div class="flex ml-auto">
+            <!-- Authentication Links -->
+            @guest
+                <div class="text-white mr-2">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </div>
+                @if (Route::has('register'))
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </div>
+                @endif
+            @else
+                <div class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
 
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            @endguest
+        </div>
+
+
+
+{{--  --}}
           <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out" aria-label="Notifications">
             <!-- Heroicon name: bell -->
 
@@ -31,13 +65,14 @@
           </button>
 
 
-
           <!-- Profile dropdown -->
           <div class="ml-3 relative">
-            <div>
-              <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
-                <img class="h-8 w-8 rounded-full" src="/assets/avatar.svg" alt="">
-              </button>
+              <div>
+                @if ( Auth::user()->name ?? null  )
+                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
+                        <img class="h-8 w-8 rounded-full" src="/assets/avatar.svg" alt="">
+                    </button>
+                @endif
             </div>
             <!--
               Profile dropdown panel, show/hide based on dropdown state.
