@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+// use Illuminate\Notifications\Messages\NexmoMessage;
+// use Nexmo\Laravel\Facade\Nexmo;
 
 class PaymentReceived extends Notification
 {
@@ -16,9 +18,9 @@ class PaymentReceived extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($amount)
     {
-        //
+        $this->amount = $amount;
     }
 
     /**
@@ -29,7 +31,7 @@ class PaymentReceived extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database', 'nexmo'];
     }
 
     /**
@@ -46,6 +48,24 @@ class PaymentReceived extends Notification
                     ->line('Thank you for using our application!');
     }
 
+        /**
+     * Get the Nexmo / SMS representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return NexmoMessage
+     */
+    public function toNexmo($notifiable)
+    {
+        $amount =10000000;
+        $message = 'Sam Testing';
+
+         return \Nexmo\Laravel\Facade\Nexmo::message()->send([
+            'to' => '46720342482',
+            'from' => '46720342482',
+            'text' => $message,
+        ]);
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -55,7 +75,7 @@ class PaymentReceived extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'amount' => $this->amount,
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserNotificationsController;
 use App\Mail\Contact;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -69,3 +70,4 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth');
 Route::post('payment', [PaymentController::class, 'store'])->middleware('auth');
+Route::get('notifications',[UserNotificationsController::class, 'show'])->middleware('auth');
